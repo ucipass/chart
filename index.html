@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css">
+    <link rel="stylesheet" type="text/css" href="/chartist_custom.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js"></script>
+    
+  </head>
+  <body>
+      <h3 style="margin:0;">Live Chart</h3>
+      <div id="chart-live" class="ct-chart ct-square" style="height: 300px; "></div>
+      <h3 style="margin:0;">Minute Chart</h3>
+      <div id="chart-minute" class="ct-chart ct-square" style="height: 300px; "></div>
+      <h3 style="margin:0;">Hourly Chart</h3>
+      <div id="chart-hour" class="ct-chart ct-square" style="height: 300px; "></div>
+<script>
+
+var ws = new WebSocket('ws://localhost:8080');
+// event emmited when connected
+ws.onopen = function () {
+    console.log('websocket is connected ...')
+    // sending a send event to websocket server
+    ws.send('connected')
+}
+// event emmited when receiving message 
+ws.onmessage = function (msg) {
+  console.log(msg);
+  let data = JSON.parse(msg.data)
+  console.log(data);
+  createChartLive(data.json)
+  createChartMinute(data.json_mins_60)
+  createChartHour(data.json_hours_60)
+}
+
+function createChartLive(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-live', data, options);
+}
+
+function createChartMinute(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-minute', data, options); 
+}
+
+function createChartHour(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-hour', data, options); 
+}
+
+
+</script>
+</body>
+</html>

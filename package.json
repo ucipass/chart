@@ -1,0 +1,31 @@
+{
+  "name": "ucipass-chart",
+  "version": "1.0.0",
+  "description": "historical charting based on websocket push",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "moment": "^2.22.1",
+    "ws": "^5.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucipass/chart.git"
+  },
+  "keywords": [
+    "chart",
+    "ws",
+    "websocket"
+  ],
+  "author": "ucipass",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ucipass/chart/issues"
+  },
+  "homepage": "https://github.com/ucipass/chart#readme"
+}
