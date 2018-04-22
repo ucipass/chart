@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css">
+    <link rel="stylesheet" type="text/css" href="/chartist_custom.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js"></script>
+    <script src="/echarts.min.js"></script>
+    <script src="/moment.js"></script>
+    
+  </head>
+  <body>
+      <div id="chart-sec" style="width: 500px; height: 350px;"></div>
+<script>
+window.onload = function(){
+var ws = new WebSocket('ws://localhost:8080');
+// event emmited when connected
+ws.onopen = function () {
+    console.log('websocket is connected ...')
+    // sending a send event to websocket server
+    ws.send('connected')
+}
+// event emmited when receiving message 
+ws.onmessage = function (msg) {
+  //console.log(msg);
+  let data = JSON.parse(msg.data)
+  //console.log(data);
+  createChartLive(data.json)
+  //createChartMinute(data.json_mins_60)
+  //createChartHour(data.json_hours_60)
+  //createChartDay(data.json_days_60)
+  //createChartWeek(data.json_weeks_60)
+}
+
+function createChartLive(data){
+  //console.log(moment(data.series[59]).format("HH:mm:ss"))
+  data.labels = data.labels.map((item,index)=>{
+    return moment(item).format("HH:mm:ss")
+  })
+  //var labels = data.labels
+  //var valAvg = data.series[1]
+  var labels = [123232,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10]
+  var valMin = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10]
+  var valAvg = [11,12,13,14,15,16,17,18,19,20,11,12,13,14,15,16,17,18,19,10,11,12,13,14,15,16,17,18,19,11,11,12,13,14,15,16,17,18,19,11,11,12,13,14,15,16,17,18,19,11,11,12,13,14,15,16,17,18,19,11]
+  var valMax = [21,22,23,24,25,26,27,28,29,30,21,22,23,24,25,26,27,28,29,20,21,22,23,24,25,26,27,28,29,21,21,22,23,24,25,26,27,28,29,21,21,22,23,24,25,26,27,28,29,21,21,22,23,24,25,26,27,28,29,21]
+  //var labels = data.labels
+  //var valMax = data.series[0]
+  //var valAvg = data.series[1]
+  //var valMin = data.series[1]
+  var chart = document.getElementById('chart-sec');
+  var myChart = echarts.init(chart);
+  var option = {
+    title: { text: 'M' },
+    tooltip: {  trigger: 'axis' },
+    legend: { data: [ 'Sales' ] },
+    xAxis: { 
+      //data: [ "l1", "l2", "l3", "l4", "l5", "l6" ] ,
+      data: labels ,
+      axisTick:{show:true},
+      axisLine: {lineStyle:{color:"blue"}},
+      axisLabel : {
+        show:true,
+        //interval: 'auto',    // {number}
+        interval: 0,    // {number}
+        rotate: 45,
+        margin: 2,
+        formatter: '{value}',
+        textStyle: {
+            color: 'blue',
+            align: "right",
+            baseline: "top",
+            fontFamily: 'sans-serif',
+            fontSize: 9,
+            fontStyle: 'normal',
+            fontWeight: 'normal'
+              }
+      }
+    },
+    yAxis: { type : 'value' },
+    series: [
+    {
+      name: 'Maximum',
+      type: 'line',
+      data: valMax
+      },
+      {
+      name: 'Average',
+      type: 'line',
+      data: valAvg
+      },
+      {
+      name: 'Minimum',
+      type: 'line',
+      data: valMin
+      }
+    ]
+  };
+  myChart.setOption(option);
+  
+  return
+
+  ///////////////////////////////////////
+  let options = {
+  height:250,
+  seriesBarDistance: 100
+  };
+  new Chartist.Line('#chart-live', data, options);
+}
+
+function createChartMinute(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 50,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-minute', data, options); 
+}
+
+function createChartHour(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-hour', data, options); 
+}
+
+function createChartDay(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-day', data, options); 
+}
+
+function createChartWeek(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-week', data, options); 
+}
+}
+
+</script>
+</body>
+</html>

@@ -42,7 +42,7 @@ wss.on('connection', function (ws,req) {
     ws.on('message', function (message) {
         
         if(parseFloat(message)){
-            console.log('received data: %s', message)
+            //console.log('received data: %s', message)
             chart.log(message,moment())
         }
         else{
@@ -73,6 +73,9 @@ app.get('/', function (req, res) {
 app.get('/chartist_custom.css', function (req, res) {
     res.sendFile(__dirname + '/chartist_custom.css');
 })
+
+app.use(express.static(__dirname));
+
 server.listen(8080, function listening() {
     console.log('Listening on %d', server.address().port);
 });

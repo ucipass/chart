@@ -1,104 +1,141 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css">
-    <link rel="stylesheet" type="text/css" href="/chartist_custom.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js"></script>
-    
-  </head>
-  <body>
-      <h3 style="margin:0;">Live Chart</h3>
-      <div id="chart-live" class="ct-chart ct-square" style="height: 300px; "></div>
-      <h3 style="margin:0;">Minute Chart</h3>
-      <div id="chart-minute" class="ct-chart ct-square" style="height: 300px; "></div>
-      <h3 style="margin:0;">Hourly Chart</h3>
-      <div id="chart-hour" class="ct-chart ct-square" style="height: 300px; "></div>
-      <h3 style="margin:0;">Daily Chart</h3>
-      <div id="chart-day" class="ct-chart ct-square" style="height: 300px; "></div>
-      <h3 style="margin:0;">Weekly Chart</h3>
-      <div id="chart-week" class="ct-chart ct-square" style="height: 300px; "></div>
+<head>
+    <title>ECharts Sample</title>
+    <div id="message">If you see this websocket doesn't work!</div>
+    <script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+    <script src="/moment.js"></script>
+</head>
+<body>
+<div id="chartSec" style="width: 950px; height: 350px;"></div>
+<div id="chartMin" style="width: 950px; height: 350px;"></div>
+<div id="chartHour" style="width: 950px; height: 350px;"></div>
+<div id="chartDay" style="width: 950px; height: 350px;"></div>
+<div id="chartWeek" style="width: 950px; height: 350px;"></div>
 <script>
+window.onload = function(){
 
-var ws = new WebSocket('ws://localhost:8080');
-// event emmited when connected
-ws.onopen = function () {
-    console.log('websocket is connected ...')
-    // sending a send event to websocket server
-    ws.send('connected')
-}
-// event emmited when receiving message 
-ws.onmessage = function (msg) {
-  console.log(msg);
-  let data = JSON.parse(msg.data)
-  console.log(data);
-  createChartLive(data.json)
-  createChartMinute(data.json_mins_60)
-  createChartHour(data.json_hours_60)
-  createChartDay(data.json_days_60)
-  createChartWeek(data.json_weeks_60)
-}
+    var labels = [123232,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10]
+    var valMin = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10]
+    var valAvg = [11,12,13,14,15,16,17,18,19,20,11,12,13,14,15,16,17,18,19,10,11,12,13,14,15,16,17,18,19,11,11,12,13,14,15,16,17,18,19,11,11,12,13,14,15,16,17,18,19,11,11,12,13,14,15,16,17,18,19,11]
+    var valMax = [21,22,23,24,25,26,27,28,29,30,21,22,23,24,25,26,27,28,29,20,21,22,23,24,25,26,27,28,29,21,21,22,23,24,25,26,27,28,29,21,21,22,23,24,25,26,27,28,29,21,21,22,23,24,25,26,27,28,29,21]
 
-function createChartLive(data){
-  let options = {
-  height:250,
-  seriesBarDistance: 100
-  };
-  new Chartist.Line('#chart-live', data, options);
-}
-
-function createChartMinute(data){
-  let options = {
-  height:250,
-  seriesBarDistance: 100,
-      axisY : {
-          low: 0,
-          referenceValue: 50,
-          scaleMinSpace: 40
+    var chartSec = document.getElementById('chartSec');
+    var chartMin = document.getElementById('chartMin');
+    var chartHour = document.getElementById('chartHour');
+    var chartDay = document.getElementById('chartDay');
+    var chartWeek = document.getElementById('chartWeek');
+    var myChartSec = echarts.init(chartSec);
+    var myChartMin = echarts.init(chartMin);
+    var myChartHour = echarts.init(chartHour);
+    var myChartDay = echarts.init(chartDay);
+    var myChartWeek = echarts.init(chartWeek);
+    var option = {
+        title: { text: 'ECharts Sample' },
+        tooltip: { },
+        legend: { data: [ 'Sales' ] },
+        xAxis: {
+            axisLabel : {
+                show:true,
+                //interval: 'auto',    // {number}
+                interval: 0,    
+                rotate: 45,
+                margin: 2,
+                formatter: '{value}',
+                textStyle: {
+                    color: 'blue',
+                    align: "right",
+                    baseline: "top",
+                    fontFamily: 'sans-serif',
+                    fontSize: 9,
+                    fontStyle: 'normal',
+                    fontWeight: 'normal'
+                }
+            },
+            data: labels 
+        },
+        yAxis: { },
+        series: [
+        {
+            name: 'Max',
+            type: 'line',
+            data: valMax
+        },
+        {
+            name: 'Avg',
+            type: 'line',
+            data: valAvg
+        },
+        {
+            name: 'Min',
+            type: 'line',
+            data: valMin
         }
-  };
-  new Chartist.Line('#chart-minute', data, options); 
+        ]
+    };        
+        //console.log(data);
+    
+    var ws = new WebSocket('ws://localhost:8080');
+    // event emmited when connected
+    ws.onopen = function () {
+        console.log('websocket is connected ...')
+        // sending a send event to websocket server
+        ws.send('connected')
+    }
+    // event emmited when receiving message 
+    ws.onmessage = function (msg) {
+        var theDiv = document.getElementById("message");
+        theDiv.innerHTML = '<b>'+"Sensor Chart: "+moment().format("MMM/DD hh:mm:ss")+'</b>'
+
+        let data = JSON.parse(msg.data)
+        
+        let json = data.json
+        option.title.text = "Second Chart"
+        option.series[0].data = json.series[0]
+        option.series[1].data = json.series[1]
+        option.series[2].data = json.series[2]
+        option.xAxis.data = json.labels.map((item)=>{
+            return moment(item).format("hh:mm:ss")
+        })
+        myChartSec.setOption(option)
+
+        json = data.json_mins_60
+        option.title.text = "Minute Chart"
+        option.series[0].data = json.series[0]
+        option.series[1].data = json.series[1]
+        option.series[2].data = json.series[2]
+        option.xAxis.data = json.labels.map((item)=>{
+            return moment(item).format("hh:mm:00")
+        })
+        myChartMin.setOption(option)
+
+        json = data.json_hours_60
+        option.title.text = "Hour Chart"
+        option.series[0].data = json.series[0]
+        option.series[1].data = json.series[1]
+        option.series[2].data = json.series[2]
+        option.xAxis.data = json.labels
+        myChartHour.setOption(option)
+
+        json = data.json_days_60
+        option.title.text = "Day Chart"
+        option.series[0].data = json.series[0]
+        option.series[1].data = json.series[1]
+        option.series[2].data = json.series[2]
+        option.xAxis.data = json.labels
+        myChartDay.setOption(option)
+
+        json = data.json_weeks_60
+        option.title.text = "Week Chart"
+        option.series[0].data = json.series[0]
+        option.series[1].data = json.series[1]
+        option.series[2].data = json.series[2]
+        option.xAxis.data = json.labels
+        myChartWeek.setOption(option)
+
+    }
+
 }
-
-function createChartHour(data){
-  let options = {
-  height:250,
-  seriesBarDistance: 100,
-      axisY : {
-          low: 0,
-          referenceValue: 3,
-          scaleMinSpace: 40
-        }
-  };
-  new Chartist.Line('#chart-hour', data, options); 
-}
-
-function createChartDay(data){
-  let options = {
-  height:250,
-  seriesBarDistance: 100,
-      axisY : {
-          low: 0,
-          referenceValue: 3,
-          scaleMinSpace: 40
-        }
-  };
-  new Chartist.Line('#chart-day', data, options); 
-}
-
-function createChartWeek(data){
-  let options = {
-  height:250,
-  seriesBarDistance: 100,
-      axisY : {
-          low: 0,
-          referenceValue: 3,
-          scaleMinSpace: 40
-        }
-  };
-  new Chartist.Line('#chart-week', data, options); 
-}
-
-
 </script>
 </body>
 </html>
