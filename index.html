@@ -75,10 +75,10 @@ window.onload = function(){
     };        
         //console.log(data);
     
-    var ws = new WebSocket('ws://localhost:8080');
+    var ws = new WebSocket('ws://'+location.host);
     // event emmited when connected
     ws.onopen = function () {
-        console.log('websocket is connected ...')
+        console.log('websocket is connected ...',window.location.host)
         // sending a send event to websocket server
         ws.send('connected')
     }
