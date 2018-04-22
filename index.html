@@ -13,6 +13,10 @@
       <div id="chart-minute" class="ct-chart ct-square" style="height: 300px; "></div>
       <h3 style="margin:0;">Hourly Chart</h3>
       <div id="chart-hour" class="ct-chart ct-square" style="height: 300px; "></div>
+      <h3 style="margin:0;">Daily Chart</h3>
+      <div id="chart-day" class="ct-chart ct-square" style="height: 300px; "></div>
+      <h3 style="margin:0;">Weekly Chart</h3>
+      <div id="chart-week" class="ct-chart ct-square" style="height: 300px; "></div>
 <script>
 
 var ws = new WebSocket('ws://localhost:8080');
@@ -30,17 +34,14 @@ ws.onmessage = function (msg) {
   createChartLive(data.json)
   createChartMinute(data.json_mins_60)
   createChartHour(data.json_hours_60)
+  createChartDay(data.json_days_60)
+  createChartWeek(data.json_weeks_60)
 }
 
 function createChartLive(data){
   let options = {
   height:250,
-  seriesBarDistance: 100,
-      axisY : {
-          low: 0,
-          referenceValue: 3,
-          scaleMinSpace: 40
-        }
+  seriesBarDistance: 100
   };
   new Chartist.Line('#chart-live', data, options);
 }
@@ -51,7 +52,7 @@ function createChartMinute(data){
   seriesBarDistance: 100,
       axisY : {
           low: 0,
-          referenceValue: 3,
+          referenceValue: 50,
           scaleMinSpace: 40
         }
   };
@@ -69,6 +70,32 @@ function createChartHour(data){
         }
   };
   new Chartist.Line('#chart-hour', data, options); 
+}
+
+function createChartDay(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-day', data, options); 
+}
+
+function createChartWeek(data){
+  let options = {
+  height:250,
+  seriesBarDistance: 100,
+      axisY : {
+          low: 0,
+          referenceValue: 3,
+          scaleMinSpace: 40
+        }
+  };
+  new Chartist.Line('#chart-week', data, options); 
 }
 
 

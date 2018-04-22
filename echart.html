@@ -1,0 +1,45 @@
+<!doctype html>
+    <html>
+    <head>
+    	<title>ECharts Sample</title>
+    	<script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+    </head>
+    <body>
+    	<div id="chart" style="width: 500px; height: 350px;"></div>
+    	<script>
+    		var chart = document.getElementById('chart');
+    		var myChart = echarts.init(chart);
+    		var option = {
+    			title: { text: 'ECharts Sample' },
+    			tooltip: { },
+    			legend: { data: [ 'Sales' ] },
+                xAxis: { data: [ "shirt", "cardign", "chiffon shirt", "pants", "heels", "socks" ] ,
+                axisLabel : {
+                    show:true,
+                    interval: 'auto',    // {number}
+                    rotate: 45,
+                    margin: 8,
+                    formatter: '{value}月',
+                    textStyle: {
+                        color: 'blue',
+                        fontFamily: 'sans-serif',
+                        fontSize: 15,
+                        fontStyle: 'italic',
+                        fontWeight: 'bold'
+                    }
+                }},
+    			yAxis: { },
+    			series: [{
+    				name: 'Sales',
+    				type: 'bar',
+    				data: [5, 20, 36, 10, 10, 20]
+    			}]
+    		};
+    		myChart.setOption(option);
+    	</script>
+    </body>
+    </html>
+
+
+
+    
