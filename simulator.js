@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const moment = require('moment');
 const url = 'ws://127.0.0.1:8080/'
 var timer = null
 
@@ -16,7 +17,7 @@ function startSimulator(){
             let random2 = getRandomInt(50)
             let number = random1 + random2
             ws.send(number);
-            console.log("SENT:",number," --> ",url)
+            console.log(("SENT: "+number).padEnd(10),"-->",url,"on:",moment().format("MMM/DD h:mm:ssA"))
         }, 1000);
     });
     
