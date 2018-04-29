@@ -94,9 +94,7 @@ window.onload = function(){
         option.series[0].data = json.series[0]
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
-        option.xAxis.data = json.labels.map((item)=>{
-            return moment(item).format("hh:mm:ss")
-        })
+        option.xAxis.data = json.labels.map((item)=> item ? label : "")
         myChartSec.setOption(option)
 
         json = data.json_mins_60
@@ -104,9 +102,7 @@ window.onload = function(){
         option.series[0].data = json.series[0]
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
-        option.xAxis.data = json.labels.map((item)=>{
-            return moment(item).format("hh:mm:00")
-        })
+        option.xAxis.data = json.labels.map((item)=> item ? label : "")
         myChartMin.setOption(option)
 
         json = data.json_hours_60
@@ -114,7 +110,7 @@ window.onload = function(){
         option.series[0].data = json.series[0]
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
-        option.xAxis.data = json.labels
+        option.xAxis.data = json.labels.map((item)=> item ? label : "")
         myChartHour.setOption(option)
 
         json = data.json_days_60
@@ -122,7 +118,7 @@ window.onload = function(){
         option.series[0].data = json.series[0]
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
-        option.xAxis.data = json.labels
+        option.xAxis.data = json.labels.map((item)=> item ? label : "")
         myChartDay.setOption(option)
 
         json = data.json_weeks_60
@@ -130,7 +126,7 @@ window.onload = function(){
         option.series[0].data = json.series[0]
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
-        option.xAxis.data = json.labels
+        option.xAxis.data = json.labels.map((item)=> item ? label : "")
         myChartWeek.setOption(option)
 
     }
