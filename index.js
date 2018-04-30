@@ -49,14 +49,13 @@ function wsServer(){
             console.log('connection closed');
         })
         ws.on('message', function (message) {
-            if(parseFloat(message)){
-                //console.log('received data: %s', message)
-                message = parseFloat(message)
-                console.log('received data: %s', message)
-                chart.log(message,moment())
+            if(isNaN(parseFloat(message))){
+                console.log('received non number:', message)
             }
             else{
-                console.log('received non JSON: %s', message)
+                message = parseFloat(message)
+                console.log('received data:', message)
+                chart.log(message,moment())
             }
             wss.clients.forEach(function each(ws) {
                 msg.json = chart.getChartSecond()

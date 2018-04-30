@@ -1,9 +1,10 @@
 {
   "name": "ucipass-weblogger",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "historical charting based on websocket push",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.18.0",
     "express": "^4.16.3",
     "mocha": "^5.1.1",
     "moment": "^2.22.1",
