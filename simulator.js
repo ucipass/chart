@@ -10,7 +10,7 @@ function getRandomInt(max) {
 
 function startSimulator(){
     const ws = new WebSocket(url);
-    console.log("===============================\nTrying to connect to:",url)
+    console.log("==============================\nTrying to connect to:",url)
     ws.on('open', function open() {
         console.log('connected');
         test(ws)
