@@ -1,4 +1,3 @@
-<!doctype html>
 <html>
 <head>
     <title>Weblogger</title>
@@ -95,7 +94,9 @@ window.onload = function(){
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
         option.xAxis.data = json.labels.map((label)=> label ? moment(label).format("MMM/DD hh:mm:ss") : "")
-        myChartSec.setOption(option)
+	minarr = json.series[2].map((v)=> parseFloat(v))
+        option.yAxis.min = Math.floor(Math.min(...minarr))
+	myChartSec.setOption(option)
 
         json = data.json_mins_60
         option.title.text = "Minute Chart"
@@ -103,6 +104,8 @@ window.onload = function(){
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
         option.xAxis.data = json.labels.map((label)=> label ? moment(label).format("MMM/DD [-] h:mmA") : "")
+	minarr = json.series[2].map((v)=> parseFloat(v))
+        option.yAxis.min = Math.floor(Math.min(...minarr))
         myChartMin.setOption(option)
 
         json = data.json_hours_60
@@ -111,6 +114,8 @@ window.onload = function(){
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
         option.xAxis.data = json.labels.map((label)=> label ? moment(label).format("MMM/DD [-] hA") : "")
+	minarr = json.series[2].map((v)=> parseFloat(v))
+        option.yAxis.min = Math.floor(Math.min(...minarr))
         myChartHour.setOption(option)
 
         json = data.json_days_60
@@ -119,6 +124,8 @@ window.onload = function(){
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
         option.xAxis.data = json.labels.map((label)=> label ? label : "")
+	minarr = json.series[2].map((v)=> parseFloat(v))
+        option.yAxis.min = Math.floor(Math.min(...minarr))
         myChartDay.setOption(option)
 
         json = data.json_weeks_60
@@ -127,6 +134,8 @@ window.onload = function(){
         option.series[1].data = json.series[1]
         option.series[2].data = json.series[2]
         option.xAxis.data = json.labels.map((label)=> label ? label : "")
+	minarr = json.series[2].map((v)=> parseFloat(v))
+        option.yAxis.min = Math.floor(Math.min(...minarr))
         myChartWeek.setOption(option)
 
     }
