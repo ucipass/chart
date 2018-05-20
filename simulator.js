@@ -57,5 +57,5 @@ async function test(ws){
         }
         ws.send(number);
         console.log(("SENT: "+number).padEnd(10),"-->",url,"on:",moment().format("MMM/DD h:mm:ssA"))
-    }, 10000);
+    }, 1000);
 }

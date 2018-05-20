@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <title>Weblogger</title>
+    <div id="message">If you see this websocket doesn't work!</div>
+    <script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+    <script src="/moment.js"></script>
+</head>
+<body>
+<div id="chartSec" style="width: 1000px; height: 350px;"></div>
+<div id="chartMin" style="width: 1000px; height: 350px;"></div>
+<div id="chartHour" style="width: 1000px; height: 350px;"></div>
+<div id="chartDay" style="width: 1000px; height: 350px;"></div>
+<div id="chartWeek" style="width: 1000px; height: 350px;"></div>
+<script>
+var labels = []
+var valMin = []
+var valAvg = []
+var valMax = []
+var option = {
+    title: { text: 'ECharts Sample' },
+    tooltip: { },
+    legend: { data: [ 'Sales' ] },
+    xAxis: {
+        axisLabel : {
+            //show:true,
+            //interval: 'auto',    // {number}
+            interval: 0,    
+            rotate: 45,
+            margin: 2,
+            //formatter: '{value}',
+            textStyle: {
+                color: 'blue',
+                align: "right",
+                baseline: "top",
+                fontFamily: 'sans-serif',
+                fontSize: 9,
+                fontStyle: 'normal',
+                fontWeight: 'normal'
+            }
+        },
+        data: ["a","b","C"]
+    },
+    yAxis: { min:2},
+    series: [
+    {
+        name: 'Max',
+        type: 'line',
+        data: valMax
+    },
+    {
+        name: 'Avg',
+        type: 'line',
+        data: valAvg
+    },
+    {
+        name: 'Min',
+        type: 'line',
+        data: valMin
+    }
+    ]
+}; 
+
+window.onload = function(){
+
+    var chartSec = document.getElementById('chartSec');
+
+    var myChartSec = echarts.init(chartSec);
+
+       
+        //console.log(data);
+    
+    var ws = new WebSocket('ws://'+location.host);
+    // event emmited when connected
+    ws.onopen = function () {
+        console.log('websocket is connected ...',window.location.host)
+        // sending a send event to websocket server
+        ws.send('connected')
+    }
+    // event emmited when receiving message 
+    ws.onmessage = function (msg) {
+        var theDiv = document.getElementById("message");
+        theDiv.innerHTML = '<b>'+"Sensor Chart: "+moment().format("MMM/DD hh:mm:ss")+'</b>'
+
+
+        let data = JSON.parse(msg.data)
+        let json = data.json
+        option.title.text = "Second Chart"
+        option.series[0].data = [1,2,3,4,5]
+        option.series[1].data = [1,2,3,4,5]
+        option.series[2].data = [1,2,3,4,5]
+        //option.xAxis.data = json.labels.map((label)=> label ? moment(label).format("MMM/DD hh:mm:ss") : "")
+        //option.xAxis.data = ["a",2,3,4,5]
+        myChartSec.setOption(option)
+
+
+    }
+
+}
+</script>
+</body>
+</html>
